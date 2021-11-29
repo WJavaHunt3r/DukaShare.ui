@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_detail_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivityDetailHostActivity"
+    tools:ignore="MergeRootFrame">
+
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/activity_detail_scroll_view"
+        android:layout_margin="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <TextView
+            android:id="@+id/activity_detail"
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:paddingTop="16dp"
+            android:paddingEnd="@dimen/container_horizontal_margin"
+
+            android:textIsSelectable="true"
+            tools:context="hu.ktk.it.dukashare.fragment.ActivityDetailFragment" />
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

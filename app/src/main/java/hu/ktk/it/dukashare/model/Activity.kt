@@ -1,17 +1,21 @@
 package hu.ktk.it.dukashare.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+import java.time.OffsetDateTime
 import java.util.*
 
-data class Activity (
+@Parcelize
+data class Activity(
     val id: Long,
     val summary: String,
     val description: String,
-    val startDate: Date,
-    val endDate: Date,
+    val startDate: OffsetDateTime,
+    val endDate: OffsetDateTime,
     val isU18: Boolean,
-    val registrationDeadline: Date,
+    val registrationDeadline: OffsetDateTime,
     val activityType: ActivityType,
-    val registrations: List<Registration>
-        ){
-
+    val activityState: ActivityState,
+    val requiredParticipant: Int
+        ): Parcelable{
 }

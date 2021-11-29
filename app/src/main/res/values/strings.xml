@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">DukaShare</string>
+    <string name="title_activity_detail_host">ActivityDetailHostActivity</string>
+    <string name="title_activity_list">Activities</string>
+    <string name="title_activity_detail">Activity Detail</string>
 </resources>
