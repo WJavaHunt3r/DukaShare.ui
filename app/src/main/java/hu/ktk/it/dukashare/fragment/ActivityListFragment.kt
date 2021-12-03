@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment.findNavController
@@ -15,22 +16,21 @@ import hu.ktk.it.dukashare.databinding.FragmentActivityListBinding
 import hu.ktk.it.dukashare.model.Activity
 import hu.ktk.it.dukashare.model.ActivityState
 import hu.ktk.it.dukashare.model.ActivityType
+import hu.ktk.it.dukashare.service.ActivityService
 import java.time.OffsetDateTime
 
 
 class ActivityListFragment : Fragment(), ActivityRecycleViewAdapter.ActivityClickListener {
 
-
-
     private var _binding: FragmentActivityListBinding? = null
-    private  var activityDetailFragmentContainer: View? = null
+    private var activityDetailFragmentContainer: View? = null
     private val binding get() = _binding!!
-
+    private var activityService: ActivityService = ActivityService()
     private lateinit var activityRecyclerViewAdapter: ActivityRecycleViewAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentActivityListBinding.inflate(inflater, container, false)
         return binding.root
@@ -44,25 +44,74 @@ class ActivityListFragment : Fragment(), ActivityRecycleViewAdapter.ActivityClic
 
     }
 
-    private fun setUpRecycleView(){
+    private fun setUpRecycleView() {
         val data = mutableListOf(
-            Activity(1, "Takarítás Dukán", "Takarítás területen dukán", OffsetDateTime.now(), OffsetDateTime.now(), false, OffsetDateTime.now(), ActivityType(0, "Takarítás"), ActivityState.ONGOING, 12 ),
-            Activity(2, "Mosogatás Dukán", "Mosogatás esküvő után ", OffsetDateTime.now(), OffsetDateTime.now(), true, OffsetDateTime.now(), ActivityType(1, "Mosogatás"), ActivityState.ONGOING, 15 ),
-            Activity(3, "Fűkaszálás Dányban", "Fűkaszálás Dány sűlysáp területen ", OffsetDateTime.now(), OffsetDateTime.now(), true, OffsetDateTime.now(), ActivityType(2, "Kaszálás"), ActivityState.OVER, 20 ),
+            Activity(
+                1,
+                "Takarítás Dukán",
+                "Takarítás területen dukán",
+                OffsetDateTime.now(),
+                OffsetDateTime.now(),
+                false,
+                OffsetDateTime.now(),
+                ActivityType(0, "Takarítás"),
+                ActivityState.ONGOING,
+                12
+            ),
+            Activity(
+                2,
+                "Mosogatás Dukán",
+                "Mosogatás esküvő után ",
+                OffsetDateTime.now(),
+                OffsetDateTime.now(),
+                true,
+                OffsetDateTime.now(),
+                ActivityType(1, "Mosogatás"),
+                ActivityState.ONGOING,
+                15
+            ),
+            Activity(
+                3,
+                "Fűkaszálás Dányban",
+                "Fűkaszálás Dány sűlysáp területen ",
+                OffsetDateTime.now(),
+                OffsetDateTime.now(),
+                true,
+                OffsetDateTime.now(),
+                ActivityType(2, "Kaszálás"),
+                ActivityState.OVER,
+                20
+            ),
         )
         activityRecyclerViewAdapter = ActivityRecycleViewAdapter()
         activityRecyclerViewAdapter.itemClickListener = this
-        activityRecyclerViewAdapter.addAll(data)
-        binding.root.findViewById<RecyclerView>(R.id.activity_list).adapter = activityRecyclerViewAdapter
+        getActivities()
+        binding.root.findViewById<RecyclerView>(R.id.activity_list).adapter =
+            activityRecyclerViewAdapter
     }
+
+    private fun getActivities() {
+        activityService.getActivities {
+            if (it.isNotEmpty()) activityRecyclerViewAdapter.addAll(it as List<Activity>)
+            else {
+                Toast.makeText(
+                    ActivityDetailHostActivity(),
+                    "Network request error occurred, check LOG",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
 
     override fun onItemClick(activity: Activity) {
         val bundle = Bundle()
-        bundle.putParcelable(
+        bundle.putLong(
             ActivityDetailHostActivity.KEY_ID,
-            activity
+            activity.id
         )
         if (activityDetailFragmentContainer != null) {
+
             activityDetailFragmentContainer!!.findNavController()
                 .navigate(R.id.fragment_activity_detail, bundle)
         } else {

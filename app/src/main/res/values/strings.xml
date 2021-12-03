@@ -3,4 +3,9 @@
     <string name="title_activity_detail_host">ActivityDetailHostActivity</string>
     <string name="title_activity_list">Activities</string>
     <string name="title_activity_detail">Activity Detail</string>
+    <string name="Register">Register</string>
+    <string name="seeRegistered">See Registered</string>
+    <string name="settings">Settings</string>
+    <string name="status">Status</string>
+    <string name="registration">Registration</string>
 </resources>

@@ -16,4 +16,5 @@
     <color name="secondaryDarkColor">#bec5b7</color>
     <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#000000</color>
+    <color name="primaryButtonColor">#355E3B</color>
 </resources>

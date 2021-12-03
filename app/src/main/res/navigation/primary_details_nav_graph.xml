@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/activity_list_fragment"
         android:name="hu.ktk.it.dukashare.fragment.ActivityListFragment"
-        android:label="ActivityListFragment">
+        android:label="Activities">
         <action
             android:id="@+id/show_activity_detail"
             app:destination="@id/activity_detail_fragment" />
@@ -16,7 +16,7 @@
     <fragment
         android:id="@+id/activity_detail_fragment"
         android:name="hu.ktk.it.dukashare.fragment.ActivityDetailFragment"
-        android:label="activity_detail"
+        android:label="Activity Details"
         tools:layout="@layout/fragment_activity_detail">
         <argument
             android:name="item_id"

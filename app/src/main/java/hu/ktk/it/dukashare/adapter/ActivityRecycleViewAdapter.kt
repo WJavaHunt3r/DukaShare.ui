@@ -1,14 +1,29 @@
 package hu.ktk.it.dukashare.adapter
 
+import android.annotation.SuppressLint
+import android.os.Parcel
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import hu.ktk.it.dukashare.databinding.SingleActivityBinding
 import hu.ktk.it.dukashare.model.Activity
 
-class ActivityRecycleViewAdapter : RecyclerView.Adapter<ActivityRecycleViewAdapter.ViewHolder>() {
+class ActivityRecycleViewAdapter() : ListAdapter<Activity, ActivityRecycleViewAdapter.ViewHolder>(itemCallback){
+    companion object{
+        object itemCallback : DiffUtil.ItemCallback<Activity>(){
+            override fun areItemsTheSame(oldItem: Activity, newItem: Activity): Boolean {
+                return oldItem.id == newItem.id
+            }
 
-    private val activityList = mutableListOf<Activity>()
+            override fun areContentsTheSame(oldItem: Activity, newItem: Activity): Boolean {
+                return oldItem == newItem
+            }
+        }
+    }
+    private var activityList = emptyList<Activity>()
 
     var itemClickListener: ActivityClickListener? = null
 
@@ -34,22 +49,19 @@ class ActivityRecycleViewAdapter : RecyclerView.Adapter<ActivityRecycleViewAdapt
 
     fun addItem(activity: Activity) {
         val size = activityList.size
-        activityList.add(activity)
-        notifyItemInserted(size)
+        activityList += activity
+        submitList(activityList)
     }
 
     fun addAll(activities: List<Activity>) {
-        val size = activityList.size
         activityList += activities
-        notifyItemRangeInserted(size, activities.size)
+        submitList(activityList)
     }
 
     fun deleteRow(position: Int) {
-        activityList.removeAt(position)
-        notifyItemRemoved(position)
+        activityList = activityList.filterIndexed{index, _ -> index != position}
+        submitList(activityList)
     }
-
-    override fun getItemCount() = activityList.size
 
     inner class ViewHolder(val binding: SingleActivityBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -65,6 +77,4 @@ class ActivityRecycleViewAdapter : RecyclerView.Adapter<ActivityRecycleViewAdapt
     interface ActivityClickListener {
         fun onItemClick(activity: Activity)
     }
-
-
 }

@@ -5,7 +5,6 @@ import kotlinx.android.parcel.Parcelize
 import java.time.OffsetDateTime
 import java.util.*
 
-@Parcelize
 data class Activity(
     val id: Long,
     val summary: String,
@@ -17,5 +16,5 @@ data class Activity(
     val activityType: ActivityType,
     val activityState: ActivityState,
     val requiredParticipant: Int
-        ): Parcelable{
+        ){
 }
