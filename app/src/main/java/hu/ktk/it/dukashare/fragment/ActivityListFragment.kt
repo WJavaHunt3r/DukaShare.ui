@@ -45,44 +45,7 @@ class ActivityListFragment : Fragment(), ActivityRecycleViewAdapter.ActivityClic
     }
 
     private fun setUpRecycleView() {
-        val data = mutableListOf(
-            Activity(
-                1,
-                "Takarítás Dukán",
-                "Takarítás területen dukán",
-                OffsetDateTime.now(),
-                OffsetDateTime.now(),
-                false,
-                OffsetDateTime.now(),
-                ActivityType(0, "Takarítás"),
-                ActivityState.ONGOING,
-                12
-            ),
-            Activity(
-                2,
-                "Mosogatás Dukán",
-                "Mosogatás esküvő után ",
-                OffsetDateTime.now(),
-                OffsetDateTime.now(),
-                true,
-                OffsetDateTime.now(),
-                ActivityType(1, "Mosogatás"),
-                ActivityState.ONGOING,
-                15
-            ),
-            Activity(
-                3,
-                "Fűkaszálás Dányban",
-                "Fűkaszálás Dány sűlysáp területen ",
-                OffsetDateTime.now(),
-                OffsetDateTime.now(),
-                true,
-                OffsetDateTime.now(),
-                ActivityType(2, "Kaszálás"),
-                ActivityState.OVER,
-                20
-            ),
-        )
+
         activityRecyclerViewAdapter = ActivityRecycleViewAdapter()
         activityRecyclerViewAdapter.itemClickListener = this
         getActivities()
@@ -92,14 +55,8 @@ class ActivityListFragment : Fragment(), ActivityRecycleViewAdapter.ActivityClic
 
     private fun getActivities() {
         activityService.getActivities {
-            if (it.isNotEmpty()) activityRecyclerViewAdapter.addAll(it as List<Activity>)
-            else {
-                Toast.makeText(
-                    ActivityDetailHostActivity(),
-                    "Network request error occurred, check LOG",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+            if (it != null) activityRecyclerViewAdapter.addAll(it as List<Activity>)
+
         }
     }
 

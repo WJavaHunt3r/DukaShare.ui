@@ -11,30 +11,29 @@ class ActivityService {
     private val retrofit = NetworkManager.buildService(ActivityAPI::class.java)
     fun getActivityById(id: Long, onResult: (Activity?) -> Unit) {
         retrofit.getActivityById(id).enqueue(object : Callback<Activity?> {
-            override fun onResponse(
-                call: Call<Activity?>, response: Response<Activity?>
-            ) {
+            override fun onResponse(call: Call<Activity?>, response: Response<Activity?>) {
                 onResult(response.body()!!)
             }
 
             override fun onFailure(call: Call<Activity?>, t: Throwable) {
-                onResult(null)
                 t.printStackTrace()
+                onResult(null)
+
             }
         })
     }
 
-    fun getActivities(onResult: (List<Activity?>) -> Unit) {
+    fun getActivities(onResult: (List<Activity?>?) -> Unit) {
         retrofit.getActivities().enqueue(object : Callback<List<Activity?>?> {
             override fun onResponse(
-                call: Call<List<Activity?>?>, response: Response<List<Activity?>?>
-            ) {
+                call: Call<List<Activity?>?>, response: Response<List<Activity?>?>) {
                 onResult(response.body()!!)
             }
 
             override fun onFailure(call: Call<List<Activity?>?>, t: Throwable) {
-                onResult(listOf(null))
                 t.printStackTrace()
+                onResult(null)
+
             }
 
         })

@@ -7,14 +7,16 @@ import java.util.*
 
 data class Activity(
     val id: Long,
-    val summary: String,
-    val description: String,
-    val startDate: OffsetDateTime,
-    val endDate: OffsetDateTime,
-    val isU18: Boolean,
-    val registrationDeadline: OffsetDateTime,
-    val activityType: ActivityType,
-    val activityState: ActivityState,
-    val requiredParticipant: Int
+    val summary: String?,
+    val description: String?,
+    val startDate: String?,
+    val endDate: String?,
+    val isU18: Boolean?,
+    val registrationDeadline: String?,
+    val activityType: ActivityType?,
+    val activityState: ActivityState?,
+    val requiredParticipant: Int?,
+    val registrations: List<Registration>?,
+    val responsibleUser: User?
         ){
 }
