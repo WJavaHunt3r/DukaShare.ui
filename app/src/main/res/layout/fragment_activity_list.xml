@@ -6,13 +6,48 @@
     android:layout_width="match_parent"
     android:background="@color/primaryColor"
     android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/tvRegisteredText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/secondaryLightColor"
+        android:textSize="16sp"
+        android:text="@string/registered_to"
+        android:gravity="center"
+        android:paddingTop="45dp"
+        android:fontFamily="sans-serif-medium"/>
+    <TextView
+        android:id="@+id/tvActivityCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvRegisteredText"
+        app:layout_constraintBottom_toTopOf="@id/line1"
+        android:textSize="30sp"
+        android:textColor="@color/secondaryLightColor"
+        android:text="@string/activity_count"
+        android:gravity="center"
+        android:fontFamily="sans-serif-medium"/>
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#a3a3a3"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/tvActivityCount"
+        app:layout_constraintBottom_toTopOf="@id/activity_list"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activity_list"
+        android:layout_marginTop="10dp"
         android:name="hu.ktk.it.dukashare.ActivityListFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layoutManager="LinearLayoutManager"
         tools:context="hu.ktk.it.dukashare.ActivityDetailHostActivity"
-        tools:listitem="@layout/single_activity" />
+        tools:layout_editor_absoluteX="-33dp"
+        tools:layout_editor_absoluteY="-335dp"
+        tools:listitem="@layout/single_activity"
+        app:layout_constraintTop_toBottomOf="@id/line1"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

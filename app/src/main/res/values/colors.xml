@@ -17,4 +17,7 @@
     <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#000000</color>
     <color name="primaryButtonColor">#355E3B</color>
+    <color name="blueGradientEnd">#87CEEB</color>
+    <color name="blueGradientStart">#1E90FF</color>
+    <color name="fullColor">#A52A2A</color>
 </resources>

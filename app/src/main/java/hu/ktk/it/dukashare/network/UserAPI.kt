@@ -1,15 +1,19 @@
 package hu.ktk.it.dukashare.network
 
 import hu.ktk.it.dukashare.model.Activity
+import hu.ktk.it.dukashare.model.User
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface UserAPI {
 
-    @GET("users/{id}")
-    fun getUserById(@Path("id") id: Long): Call<Activity?>
+    @GET("User/{id}")
+    fun getUserById(@Path("id") id: Long): Call<User>
 
-    @GET("users")
-    fun getUsers(): Call<List<Activity?>?>
+    @GET("User")
+    fun getUsers(): Call<List<User?>?>
+
+    @GET("User/email/{email}")
+    fun getUserByEmail(@Path("email") email: String): Call<User?>
 }

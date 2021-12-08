@@ -12,15 +12,37 @@
         <action
             android:id="@+id/show_activity_detail"
             app:destination="@id/activity_detail_fragment" />
+        <action
+            android:id="@+id/show_status"
+            app:destination="@+id/status"
+            />
     </fragment>
     <fragment
         android:id="@+id/activity_detail_fragment"
         android:name="hu.ktk.it.dukashare.fragment.ActivityDetailFragment"
         android:label="Activity Details"
-        tools:layout="@layout/fragment_activity_detail">
+        tools:layout="@layout/fragment_activity_detail"
+        >
         <argument
             android:name="item_id"
             android:defaultValue=""
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/status"
+        android:name="hu.ktk.it.dukashare.fragment.StatusFragment"
+        android:label="Status"
+        tools:layout="@layout/fragment_status"
+        >
+        <action
+            android:id="@+id/show_settings"
+            app:destination="@+id/settings"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settings"
+        android:name="hu.ktk.it.dukashare.fragment.SettingsFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_settings"/>
 </navigation>

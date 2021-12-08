@@ -7,10 +7,10 @@ import retrofit2.http.Header
 import retrofit2.http.Path
 
 interface ActivityAPI {
-    @GET("api/activity/{id}")
+    @GET("Activity/{id}")
     fun getActivityById(@Path("id") id: Long): Call<Activity>
 
-    @GET("api/Activity")
+    @GET("Activity")
     fun getActivities(): Call<List<Activity?>?>
 
 

@@ -16,24 +16,19 @@ class ActivityService {
             }
 
             override fun onFailure(call: Call<Activity?>, t: Throwable) {
-                t.printStackTrace()
                 onResult(null)
-
             }
         })
     }
 
     fun getActivities(onResult: (List<Activity?>?) -> Unit) {
         retrofit.getActivities().enqueue(object : Callback<List<Activity?>?> {
-            override fun onResponse(
-                call: Call<List<Activity?>?>, response: Response<List<Activity?>?>) {
+            override fun onResponse(call: Call<List<Activity?>?>, response: Response<List<Activity?>?>) {
                 onResult(response.body()!!)
             }
 
             override fun onFailure(call: Call<List<Activity?>?>, t: Throwable) {
-                t.printStackTrace()
                 onResult(null)
-
             }
 
         })

@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/Registration"
+        android:id="@+id/activity_list_fragment"
         android:title="@string/registration"
+        android:orderInCategory="1"
         android:icon="@drawable/ic_registration_foreground"/>
     <item
         android:id="@+id/status"
         android:title="@string/status"
+        android:orderInCategory="2"
         android:icon="@drawable/ic_status_foreground"/>
     <item
         android:id="@+id/settings"
         android:title="@string/settings"
+        android:orderInCategory="2"
         android:icon="@drawable/ic_settings_foreground"/>
 </menu>
