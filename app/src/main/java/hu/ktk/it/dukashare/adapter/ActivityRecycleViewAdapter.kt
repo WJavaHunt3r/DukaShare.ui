@@ -14,7 +14,7 @@ import hu.ktk.it.dukashare.model.Registration
 import hu.ktk.it.dukashare.service.Utils
 import java.time.format.DateTimeFormatter
 
-class ActivityRecycleViewAdapter() :
+class ActivityRecycleViewAdapter :
     ListAdapter<Activity, ActivityRecycleViewAdapter.ViewHolder>(itemCallback) {
     companion object {
         object itemCallback : DiffUtil.ItemCallback<Activity>() {
@@ -45,14 +45,14 @@ class ActivityRecycleViewAdapter() :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val activity = activityList[position]
-        var regs: List<Registration> = activity.registrations!!
+        val regs: List<Registration> = activity.registrations!!
         if (Utils.isUserRegistered(regs)) {
             holder.binding.activityDetailLayout.setBackgroundResource(R.drawable.registered_background_green)
         }
 
         holder.activity = activity
-        var arrow = "&#10132"
-        var formatter = DateTimeFormatter.ofPattern(("hh:mm"))
+        val arrow = "&#10132"
+        val formatter = DateTimeFormatter.ofPattern(("hh:mm"))
         val startDate = Utils.convertStringToOffsetDateTime(activity.startDate!!)
         val endDate = Utils.convertStringToOffsetDateTime(activity.endDate!!)
         holder.binding.tvDate.text = context.getString(
@@ -70,25 +70,24 @@ class ActivityRecycleViewAdapter() :
         )
         holder.binding.tvRegistered.text = context.getString(
             R.string.registered_slash_places,
-            activity?.registrations!!.size,
+            activity.registrations.size,
             activity.requiredParticipant!!
         )
-        val availablePlaces: Int = activity?.requiredParticipant!! - activity?.registrations!!.size
+        val availablePlaces: Int = activity.requiredParticipant - activity.registrations.size
         if(availablePlaces == 0){
-            holder.binding.tvRegistered?.setTextColor(context.resources.getColor(R.color.fullColor))
-            holder.binding.tvRegistered?.text = context.getString(R.string.full)
+            holder.binding.tvRegistered.setTextColor(context.resources.getColor(R.color.fullColor))
+            holder.binding.tvRegistered.text = context.getString(R.string.full)
         }
 
     }
 
     fun addItem(activity: Activity) {
-        val size = activityList.size
-        activityList += activity
+        activityList = activityList + activity
         submitList(activityList)
     }
 
     fun addAll(activities: List<Activity>) {
-        activityList += activities
+        activityList = activities
         submitList(activityList)
     }
 

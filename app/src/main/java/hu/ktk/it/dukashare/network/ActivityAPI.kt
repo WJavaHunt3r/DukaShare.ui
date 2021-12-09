@@ -3,7 +3,6 @@ package hu.ktk.it.dukashare.network
 import hu.ktk.it.dukashare.model.Activity
 import retrofit2.Call
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.Path
 
 interface ActivityAPI {

@@ -1,9 +1,6 @@
 package hu.ktk.it.dukashare.service
 
-import hu.ktk.it.dukashare.model.Activity
 import hu.ktk.it.dukashare.model.User
-import hu.ktk.it.dukashare.network.ActivityAPI
-import hu.ktk.it.dukashare.network.NetworkManager
 import hu.ktk.it.dukashare.network.NetworkManager.buildService
 import hu.ktk.it.dukashare.network.UserAPI
 import retrofit2.Call

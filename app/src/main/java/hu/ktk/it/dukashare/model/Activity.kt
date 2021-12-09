@@ -1,10 +1,5 @@
 package hu.ktk.it.dukashare.model
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-import java.time.OffsetDateTime
-import java.util.*
-
 data class Activity(
     val id: Long,
     val summary: String?,
@@ -20,5 +15,5 @@ data class Activity(
     val requiredParticipant: Int?,
     val registrations: List<Registration>?,
     val responsibleUser: Responsible?
-        ){
+) {
 }

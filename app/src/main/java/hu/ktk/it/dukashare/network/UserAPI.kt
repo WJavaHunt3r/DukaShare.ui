@@ -1,6 +1,5 @@
 package hu.ktk.it.dukashare.network
 
-import hu.ktk.it.dukashare.model.Activity
 import hu.ktk.it.dukashare.model.User
 import retrofit2.Call
 import retrofit2.http.GET

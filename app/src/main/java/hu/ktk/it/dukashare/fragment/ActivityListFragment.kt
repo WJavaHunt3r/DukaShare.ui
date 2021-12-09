@@ -26,7 +26,8 @@ class ActivityListFragment : Fragment(), ActivityRecycleViewAdapter.ActivityClic
     private var activityService: ActivityService = ActivityService()
     private lateinit var activityRecyclerViewAdapter: ActivityRecycleViewAdapter
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
 
         _binding = FragmentActivityListBinding.inflate(inflater, container, false)
         return binding.root
@@ -48,13 +49,14 @@ class ActivityListFragment : Fragment(), ActivityRecycleViewAdapter.ActivityClic
 
     private fun getActivities() {
         activityService.getActivities {
-            if (it != null){
-                for(act in it ){
-                    if(act?.activityState==ActivityState.ONGOING)
-                    activityRecyclerViewAdapter.addItem(act!!)
+            if (it != null) {
+                for (act in it) {
+                    if (act?.activityState == ActivityState.ONGOING)
+                        activityRecyclerViewAdapter.addItem(act)
                 }
-                binding.tvActivityCount?.text = getString(R.string.activity_count, ApplicationContext.user?.registrations?.size)}
-            else Toast.makeText(
+                binding.tvActivityCount?.text =
+                    getString(R.string.activity_count, ApplicationContext.user?.registrations?.size)
+            } else Toast.makeText(
                 activity,
                 "Could not connect to server",
                 Toast.LENGTH_SHORT

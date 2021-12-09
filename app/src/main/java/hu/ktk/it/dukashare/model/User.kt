@@ -1,8 +1,6 @@
 package hu.ktk.it.dukashare.model
 
-import java.util.*
-
-data class User (
+data class User(
     val id: Long,
     val surename: String,
     val lastname: String,
@@ -10,5 +8,4 @@ data class User (
     val spouseId: Long,
     val email: String,
     val registrations: List<Registration>
-){
-}
+)

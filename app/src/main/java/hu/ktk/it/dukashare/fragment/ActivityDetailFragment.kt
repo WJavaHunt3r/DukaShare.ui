@@ -28,7 +28,7 @@ class ActivityDetailFragment : Fragment() {
 
     private lateinit var _binding: FragmentActivityDetailBinding
     private var isRegistered: Boolean = false
-    private val binding get() = _binding!!
+    private val binding get() = _binding
     private var activityId: Long = 0
     private val activityService = ActivityService()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +40,7 @@ class ActivityDetailFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentActivityDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -93,7 +93,7 @@ class ActivityDetailFragment : Fragment() {
         }
     }
 
-    fun refreshView(){
+    private fun refreshView(){
         getActivity(selectedActivity?.id!!)
         setTexts()
     }
@@ -114,8 +114,8 @@ class ActivityDetailFragment : Fragment() {
 
     private fun setTexts() {
         if (selectedActivity != null) {
-            var arrow = "&#10132"
-            var formatter = DateTimeFormatter.ofPattern(("hh:mm"))
+            val arrow = "&#10132"
+            val formatter = DateTimeFormatter.ofPattern(("hh:mm"))
             val startDate = Utils.convertStringToOffsetDateTime(selectedActivity!!.startDate!!)
             val endDate = Utils.convertStringToOffsetDateTime(selectedActivity!!.endDate!!)
             val availablePlaces: Int = selectedActivity?.requiredParticipant!! - selectedActivity?.registrations!!.size

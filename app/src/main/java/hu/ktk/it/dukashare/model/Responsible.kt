@@ -4,4 +4,4 @@ data class Responsible(
     val surename: String,
     val lastname: String,
     val email: String
-){}
+)

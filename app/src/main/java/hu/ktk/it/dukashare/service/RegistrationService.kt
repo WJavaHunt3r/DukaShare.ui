@@ -1,9 +1,7 @@
 package hu.ktk.it.dukashare.service
 
 import hu.ktk.it.dukashare.ApplicationContext
-import hu.ktk.it.dukashare.model.Activity
 import hu.ktk.it.dukashare.model.Registration
-import hu.ktk.it.dukashare.network.ActivityAPI
 import hu.ktk.it.dukashare.network.NetworkManager
 import hu.ktk.it.dukashare.network.RegistrationAPI
 import okhttp3.ResponseBody
@@ -13,18 +11,17 @@ import retrofit2.Response
 
 class RegistrationService {
     private val retrofit = NetworkManager.buildService(RegistrationAPI::class.java)
-    fun deleteRegistrationById(id: Long, onResult: (String) -> Unit){
+    fun deleteRegistrationById(id: Long, onResult: (String) -> Unit) {
         retrofit.deleteRegistration(id).enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                if(response.isSuccessful) {
+                if (response.isSuccessful) {
                     onResult("successful")
                     Utils.updateUser()
-                }
-                else onResult("Failed")
+                } else onResult("Failed")
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                onResult(t.localizedMessage)
+                onResult(t.localizedMessage!!)
             }
 
         })
@@ -33,7 +30,7 @@ class RegistrationService {
     fun addRegistration(registration: Registration, onResult: (Registration?) -> Unit) {
         retrofit.addRegistration(registration).enqueue(object : Callback<Registration?> {
             override fun onResponse(call: Call<Registration?>, response: Response<Registration?>) {
-                if(response.isSuccessful) {
+                if (response.isSuccessful) {
                     onResult(response.body())
                     Utils.updateUser()
                 }
@@ -46,9 +43,9 @@ class RegistrationService {
         })
     }
 
-    fun findUserActivityRegistration(activityId: Long) : Registration?{
-        for( reg in ApplicationContext.user?.registrations!!){
-            if(reg.activityId == activityId){
+    fun findUserActivityRegistration(activityId: Long): Registration? {
+        for (reg in ApplicationContext.user?.registrations!!) {
+            if (reg.activityId == activityId) {
                 return reg
             }
         }

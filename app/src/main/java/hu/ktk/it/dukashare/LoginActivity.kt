@@ -11,7 +11,6 @@ import hu.ktk.it.dukashare.service.UserService
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: LoginLayoutBinding
     private val userService: UserService = UserService()
-    private lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

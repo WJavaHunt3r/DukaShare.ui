@@ -8,9 +8,6 @@ import androidx.fragment.app.Fragment
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartModel
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartType
 import com.github.aachartmodel.aainfographics.aachartcreator.AASeriesElement
-import com.github.aachartmodel.aainfographics.aaoptionsmodel.AAChart
-import com.github.aachartmodel.aainfographics.aaoptionsmodel.AADataLabels
-import hu.ktk.it.dukashare.ApplicationContext
 import hu.ktk.it.dukashare.R
 import hu.ktk.it.dukashare.databinding.FragmentStatusBinding
 import hu.ktk.it.dukashare.model.Activity
@@ -18,7 +15,7 @@ import hu.ktk.it.dukashare.model.ActivityType
 import hu.ktk.it.dukashare.service.ActivityService
 import hu.ktk.it.dukashare.service.ActivityTypeService
 
-class StatusFragment : Fragment(){
+class StatusFragment : Fragment() {
     private var _binding: FragmentStatusBinding? = null
     private var activityTypes: List<ActivityType?>? = emptyList()
     private var activities: List<Activity?>? = emptyList()
@@ -27,7 +24,7 @@ class StatusFragment : Fragment(){
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         _binding = FragmentStatusBinding.inflate(inflater, container, false)
 
@@ -40,11 +37,12 @@ class StatusFragment : Fragment(){
         getActivities()
     }
 
-    private fun getActivityTypes(){
+    private fun getActivityTypes() {
         ActivityTypeService().getActivityTypes {
-            if(it!=null) activityTypes = it
+            if (it != null) activityTypes = it
         }
     }
+
     private fun getActivities() {
         ActivityService().getActivities {
             if (it != null) {
@@ -55,17 +53,17 @@ class StatusFragment : Fragment(){
     }
 
 
-    private fun loadChart(){
-        var activitiesPerTypes = IntArray(activityTypes?.size!!)
-        for (act in activities!!){
+    private fun loadChart() {
+        val activitiesPerTypes = IntArray(activityTypes?.size!!)
+        for (act in activities!!) {
             activitiesPerTypes[activityTypes?.indexOf(act?.activityType)!!] += 1
         }
-        var series =Array<AASeriesElement>(activityTypes?.size!!){i->
+        val series = Array(activityTypes?.size!!) { i ->
 
             AASeriesElement().name(activityTypes!![i]?.name).data(arrayOf(activitiesPerTypes[i]))
         }
 
-        val aaPieChart : AAChartModel = AAChartModel()
+        val aaPieChart: AAChartModel = AAChartModel()
             .chartType(AAChartType.Bar)
             .title("Activity Types")
             .dataLabelsEnabled(true)
