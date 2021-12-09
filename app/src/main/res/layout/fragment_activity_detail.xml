@@ -5,28 +5,178 @@
     android:id="@+id/activity_detail_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ActivityDetailHostActivity"
+    tools:context=".DukaShare"
     tools:ignore="MergeRootFrame">
 
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/activity_detail_scroll_view"
-        android:layout_margin="50dp"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <TextView
-            android:id="@+id/activity_detail"
-            style="?android:attr/textAppearanceLarge"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:padding="6dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            >
 
-            android:paddingTop="16dp"
-            android:paddingEnd="@dimen/container_horizontal_margin"
+            <TextView
+                android:id="@+id/tvActivityDate"
+                style="?android:attr/textAppearanceLarge"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAlignment="center"
+                android:textIsSelectable="true"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp"
+                android:textSize="24sp"
+                android:text="@string/activity_detail_date"
+                />
 
-            android:textIsSelectable="true"
-            tools:context="hu.ktk.it.dukashare.fragment.ActivityDetailFragment" />
+            <View
+                android:id="@+id/tvLine1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#a3a3a3"
+                app:layout_constraintTop_toBottomOf="@id/tvActivityDate"
+                />
+
+            <TextView
+                android:id="@+id/tvActivitySummary"
+                style="?android:attr/textAppearanceLarge"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="16dp"
+                android:textSize="30sp"
+                android:textIsSelectable="true"
+                app:layout_constraintTop_toBottomOf="@id/tvLine1"
+                />
+
+            <TextView
+                android:id="@+id/tvActivityDescription"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="16dp"
+                android:textSize="20sp"
+                android:textIsSelectable="true"
+                app:layout_constraintTop_toBottomOf="@id/tvActivitySummary"
+                app:layout_constraintBottom_toTopOf="@+id/tvResponsibleLayout"
+                />
+
+            <LinearLayout
+                android:id="@+id/tvResponsibleLayout"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="12"
+                app:layout_constraintBottom_toTopOf="@id/tvLine2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvActivityDescription">
+
+                <TextView
+                    android:id="@+id/tvResponsible"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="12"
+                    android:gravity="center_vertical"
+                    android:text="@string/responsible"
+                    android:textIsSelectable="true"
+                    android:textSize="20sp" />
+
+                <ImageButton
+                    android:id="@+id/btnMail"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_baseline_email_24"
+                    />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/tvLine2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="#a3a3a3"
+                app:layout_constraintTop_toBottomOf="@id/tvResponsibleLayout"
+                />
+
+            <LinearLayout
+                android:id="@+id/tvRegisteredLayout"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:paddingTop="10dp"
+                android:layout_margin="10dp"
+                app:layout_constraintTop_toBottomOf="@id/tvLine2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/btnRegister"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+                <TextView
+                    android:id="@+id/tvParticipants"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="3"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:textSize="20sp"
+                    tools:text="@string/registered_slash_places" />
+
+                <TextView
+                    android:id="@+id/tvAvailablePlaces"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="7"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:textStyle="bold"
+                    tools:text="@string/available_places"
+                    android:textColor="@color/black"/>
+
+                <Button
+                    android:id="@+id/btnSeeRegistered"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:padding="5dp"
+                    android:textSize="11sp"
+                    android:background="@drawable/button_background_grey"
+                    app:layout_constraintStart_toEndOf="@id/tvAvailablePlaces"
+                    android:text="@string/seeRegistered"
+                    android:textColor="@color/black"
+                    android:theme="@style/SecondaryButtonStyle"
+                    />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnRegister"
+                android:backgroundTint="@color/lightGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background"
+                android:paddingStart="60dp"
+                android:paddingEnd="60dp"
+                android:text="@string/register"
+                android:theme="@style/PrimaryButtonStyle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvRegisteredLayout" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </androidx.core.widget.NestedScrollView>
 
