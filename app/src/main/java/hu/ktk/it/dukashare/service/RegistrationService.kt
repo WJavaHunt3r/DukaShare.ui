@@ -1,9 +1,11 @@
 package hu.ktk.it.dukashare.service
 
 import hu.ktk.it.dukashare.ApplicationContext
+import hu.ktk.it.dukashare.model.Activity
 import hu.ktk.it.dukashare.model.Registration
 import hu.ktk.it.dukashare.network.NetworkManager
 import hu.ktk.it.dukashare.network.RegistrationAPI
+import hu.ktk.it.dukashare.network.filter.RegistrationFilter
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -43,6 +45,18 @@ class RegistrationService {
         })
     }
 
+    fun getRegistrations(filter: RegistrationFilter?, onResult: (List<Registration?>?) -> Unit){
+        retrofit.getRegistrations(filter).enqueue(object : Callback<List<Registration?>?> {
+            override fun onResponse(call: Call<List<Registration?>?>, response: Response<List<Registration?>?>) {
+                onResult(response.body()!!)
+            }
+
+            override fun onFailure(call: Call<List<Registration?>?>, t: Throwable) {
+                onResult(null)
+            }
+
+        })
+    }
     fun findUserActivityRegistration(activityId: Long): Registration? {
         for (reg in ApplicationContext.user?.registrations!!) {
             if (reg.activityId == activityId) {

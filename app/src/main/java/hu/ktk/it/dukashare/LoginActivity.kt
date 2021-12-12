@@ -22,7 +22,6 @@ class LoginActivity : AppCompatActivity() {
         }
         this.supportActionBar?.hide()
         setContentView(binding.root)
-
     }
 
     private fun getUser() {

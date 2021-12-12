@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
 import hu.ktk.it.dukashare.ApplicationContext
 import hu.ktk.it.dukashare.DukaShare
 import hu.ktk.it.dukashare.R
@@ -23,7 +24,6 @@ import java.time.format.DateTimeFormatter
 
 
 class ActivityDetailFragment : Fragment() {
-
     private var selectedActivity: Activity? = null
 
     private lateinit var _binding: FragmentActivityDetailBinding
@@ -34,7 +34,7 @@ class ActivityDetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let { args ->
-            activityId = args.getLong(DukaShare.KEY_ID)
+            activityId = args.getLong(DukaShare.ACTIVITY_ID)
         }
 
     }
@@ -76,6 +76,15 @@ class ActivityDetailFragment : Fragment() {
             }catch (e: Exception){
                 Toast.makeText(activity, e.message, Toast.LENGTH_LONG).show()
             }
+        }
+
+        binding.btnSeeRegistered?.setOnClickListener{
+            val bundle = Bundle()
+            bundle.putLong(
+                DukaShare.ACTIVITY_ID,
+                activityId
+            )
+            NavHostFragment.findNavController(this).navigate(R.id.show_registrations, bundle)
         }
 
     }

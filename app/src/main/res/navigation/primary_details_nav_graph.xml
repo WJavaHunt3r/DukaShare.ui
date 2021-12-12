@@ -23,6 +23,10 @@
         android:label="Activity Details"
         tools:layout="@layout/fragment_activity_detail"
         >
+        <action
+            android:id="@+id/show_registrations"
+            app:destination="@+id/registrations"
+            />
         <argument
             android:name="item_id"
             android:defaultValue=""
@@ -38,8 +42,19 @@
             android:id="@+id/show_settings"
             app:destination="@+id/settings"
             />
-    </fragment>
 
+    </fragment>
+    <fragment
+        android:id="@+id/registrations"
+        android:name="hu.ktk.it.dukashare.fragment.RegistrationsFragment"
+        android:label="Registrations"
+        tools:layout="@layout/registrations_layout"
+        >
+        <argument
+            android:name="item_id"
+            android:defaultValue=""
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/settings"
         android:name="hu.ktk.it.dukashare.fragment.SettingsFragment"

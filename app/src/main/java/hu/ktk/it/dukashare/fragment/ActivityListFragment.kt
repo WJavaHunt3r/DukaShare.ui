@@ -67,7 +67,7 @@ class ActivityListFragment : Fragment(), ActivityRecycleViewAdapter.ActivityClic
     override fun onItemClick(activity: Activity) {
         val bundle = Bundle()
         bundle.putLong(
-            DukaShare.KEY_ID,
+            DukaShare.ACTIVITY_ID,
             activity.id
         )
         if (activityDetailFragmentContainer != null) {

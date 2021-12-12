@@ -12,5 +12,4 @@ interface ActivityAPI {
     @GET("Activity")
     fun getActivities(): Call<List<Activity?>?>
 
-
 }

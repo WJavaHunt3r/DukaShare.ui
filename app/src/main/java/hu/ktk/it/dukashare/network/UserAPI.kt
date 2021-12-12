@@ -12,7 +12,4 @@ interface UserAPI {
 
     @GET("User")
     fun getUsers(): Call<List<User?>?>
-
-    @GET("User/email/{email}")
-    fun getUserByEmail(@Path("email") email: String): Call<User?>
 }

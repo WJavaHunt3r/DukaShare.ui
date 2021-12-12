@@ -47,7 +47,7 @@ class StatusFragment : Fragment() {
         ActivityService().getActivities {
             if (it != null) {
                 activities = it
-                loadChart()
+
             }
         }
     }

@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 class DukaShare : AppCompatActivity() {
     companion object{
-        const val KEY_ID = "KEY_ID"
+        const val ACTIVITY_ID = "ACTIVITY_ID"
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
