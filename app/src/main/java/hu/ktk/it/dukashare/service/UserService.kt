@@ -35,18 +35,4 @@ class UserService {
 
         })
     }
-
-    fun getUserByEmail(email: String, onResult: (User?) -> Unit) {
-        retrofit.getUserByEmail(email).enqueue(object : Callback<User?> {
-            override fun onResponse(call: Call<User?>, response: Response<User?>) {
-                if (response.isSuccessful)
-                    onResult(response.body()!!)
-                else onResult(null)
-            }
-
-            override fun onFailure(call: Call<User?>, t: Throwable) {
-                onResult(null)
-            }
-        })
-    }
 }
