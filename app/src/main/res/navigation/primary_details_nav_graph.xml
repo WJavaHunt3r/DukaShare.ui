@@ -16,6 +16,10 @@
             android:id="@+id/show_status"
             app:destination="@+id/status"
             />
+        <action
+            android:id="@+id/show_new_activity_dialog"
+            app:destination="@+id/new_ativity"
+            />
     </fragment>
     <fragment
         android:id="@+id/activity_detail_fragment"
@@ -23,6 +27,10 @@
         android:label="Activity Details"
         tools:layout="@layout/fragment_activity_detail"
         >
+        <action
+            android:id="@+id/show_registrations"
+            app:destination="@+id/registrations"
+            />
         <argument
             android:name="item_id"
             android:defaultValue=""
@@ -38,11 +46,48 @@
             android:id="@+id/show_settings"
             app:destination="@+id/settings"
             />
-    </fragment>
 
+    </fragment>
+    <fragment
+        android:id="@+id/registrations"
+        android:name="hu.ktk.it.dukashare.fragment.RegistrationsFragment"
+        android:label="Registrations"
+        tools:layout="@layout/registrations_layout"
+        >
+        <argument
+            android:name="item_id"
+            android:defaultValue=""
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/settings"
         android:name="hu.ktk.it.dukashare.fragment.SettingsFragment"
         android:label="Settings"
-        tools:layout="@layout/fragment_settings"/>
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/show_manager_activities"
+            app:destination="@+id/manager_activities"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/new_ativity"
+        android:name="hu.ktk.it.dukashare.fragment.NewEditActivityDialogFragment"
+        android:label="Create Activity"
+        tools:layout="@layout/dialog_new_activity"/>
+
+    <fragment
+        android:id="@+id/manager_activities"
+        android:name="hu.ktk.it.dukashare.fragment.ManagerActivities"
+        android:label="Activties"
+        tools:layout="@layout/manager_activities_layout">
+        <action
+            android:id="@+id/show_hour_registrations"
+            app:destination="@+id/hour_registration"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/hour_registration"
+        android:name="hu.ktk.it.dukashare.fragment.HourRegistrationFragment"
+        android:label="Hours"
+        tools:layout="@layout/hour_registration"/>
 </navigation>

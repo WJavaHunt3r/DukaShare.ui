@@ -9,7 +9,6 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:id="@+id/tvActivity"
         card_view:cardBackgroundColor="@color/secondaryLightColor"
         card_view:cardCornerRadius="12dp"

@@ -7,12 +7,33 @@
     android:background="@color/primaryColor"
     tools:context=".DukaShare">
 
-    <com.github.aachartmodel.aainfographics.aachartcreator.AAChartView
-        android:id="@+id/aa_chart_view"
+    <TextView
+        android:id="@+id/tvHours"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="70dp">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/llHours"
+        android:textColor="@color/secondaryLightColor"
+        android:textSize="40sp"
+        android:text="@string/hours"
+        android:gravity="center"
+        android:paddingTop="35dp"
+        android:paddingBottom="10dp"
+        android:fontFamily="sans-serif-medium"/>
 
-    </com.github.aachartmodel.aainfographics.aachartcreator.AAChartView>
+    <LinearLayout
+        android:id="@+id/llHours"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle_back"
+        app:layout_constraintTop_toBottomOf="@id/tvHours">
+        <ListView
+            android:id="@+id/elvClosedRegistrations"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="16dp"
+            />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

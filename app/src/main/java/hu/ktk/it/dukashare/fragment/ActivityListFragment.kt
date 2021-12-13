@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment.findNavController
@@ -16,10 +17,14 @@ import hu.ktk.it.dukashare.adapter.ActivityRecycleViewAdapter
 import hu.ktk.it.dukashare.databinding.FragmentActivityListBinding
 import hu.ktk.it.dukashare.model.Activity
 import hu.ktk.it.dukashare.model.ActivityState
+import hu.ktk.it.dukashare.model.Role.ADMIN
 import hu.ktk.it.dukashare.service.ActivityService
+import hu.ktk.it.dukashare.service.RegistrationService
+import hu.ktk.it.dukashare.service.Utils
 
 
-class ActivityListFragment : Fragment(), ActivityRecycleViewAdapter.ActivityClickListener {
+class ActivityListFragment : Fragment(), ActivityRecycleViewAdapter.ActivityClickListener,
+    NewEditActivityDialogFragment.NewEditActivityDialogListener {
     private var _binding: FragmentActivityListBinding? = null
     private var activityDetailFragmentContainer: View? = null
     private val binding get() = _binding!!
@@ -30,6 +35,16 @@ class ActivityListFragment : Fragment(), ActivityRecycleViewAdapter.ActivityClic
     ): View {
 
         _binding = FragmentActivityListBinding.inflate(inflater, container, false)
+
+        if (ApplicationContext.user?.role == ADMIN) {
+            binding.fab?.isVisible = true
+        }
+        binding.fab?.setOnClickListener {
+            NewEditActivityDialogFragment().show(
+                childFragmentManager,
+                NewEditActivityDialogFragment.TAG
+            )
+        }
         return binding.root
     }
 
@@ -48,14 +63,21 @@ class ActivityListFragment : Fragment(), ActivityRecycleViewAdapter.ActivityClic
     }
 
     private fun getActivities() {
-        activityService.getActivities {
+        activityService.getActivities { it ->
             if (it != null) {
+                var count = 0
+                activityRecyclerViewAdapter.deleteAll()
                 for (act in it) {
-                    if (act?.activityState == ActivityState.ONGOING)
+                    if (act?.activityState == ActivityState.ONGOING) {
                         activityRecyclerViewAdapter.addItem(act)
+                        RegistrationService().getRegistrations(ApplicationContext.user?.id, act.id){
+                            if (it != null && it.isNotEmpty()) count++
+                            binding.tvActivityCount?.text = getString(R.string.activity_count, count)
+                        }
+                    }
                 }
-                binding.tvActivityCount?.text =
-                    getString(R.string.activity_count, ApplicationContext.user?.registrations?.size)
+
+
             } else Toast.makeText(
                 activity,
                 "Could not connect to server",
@@ -67,7 +89,7 @@ class ActivityListFragment : Fragment(), ActivityRecycleViewAdapter.ActivityClic
     override fun onItemClick(activity: Activity) {
         val bundle = Bundle()
         bundle.putLong(
-            DukaShare.KEY_ID,
+            DukaShare.ACTIVITY_ID,
             activity.id
         )
         if (activityDetailFragmentContainer != null) {
@@ -77,5 +99,20 @@ class ActivityListFragment : Fragment(), ActivityRecycleViewAdapter.ActivityClic
         } else {
             findNavController(this).navigate(R.id.show_activity_detail, bundle)
         }
+    }
+
+    override fun onActivityChanged(activity: Activity) {
+        ActivityService().addActivity(activity) {
+            if (it != null) {
+                getActivities()
+            } else {
+                Toast.makeText(
+                    requireActivity(),
+                    "Network error",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
     }
 }

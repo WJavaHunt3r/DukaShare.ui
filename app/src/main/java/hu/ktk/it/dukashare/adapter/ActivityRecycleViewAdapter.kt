@@ -11,6 +11,7 @@ import hu.ktk.it.dukashare.R
 import hu.ktk.it.dukashare.databinding.SingleActivityBinding
 import hu.ktk.it.dukashare.model.Activity
 import hu.ktk.it.dukashare.model.Registration
+import hu.ktk.it.dukashare.service.RegistrationService
 import hu.ktk.it.dukashare.service.Utils
 import java.time.format.DateTimeFormatter
 
@@ -29,9 +30,10 @@ class ActivityRecycleViewAdapter :
     }
 
     private var activityList = emptyList<Activity>()
-
+    private var registeredActivity: Int = 0
     var itemClickListener: ActivityClickListener? = null
     private lateinit var context: Context
+    private var regs: List<Registration> =  emptyList()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
         return ViewHolder(
@@ -45,16 +47,26 @@ class ActivityRecycleViewAdapter :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val activity = activityList[position]
-        val regs: List<Registration> = activity.registrations!!
+        RegistrationService().getRegistrations(null, activity.id){
+            if(it != null){
+                regs = it as List<Registration>
+                setBinding(holder, activity)
+            }
+        }
+
+    }
+
+    private fun setBinding(holder: ViewHolder, activity: Activity){
         if (Utils.isUserRegistered(regs)) {
+            registeredActivity += 1
             holder.binding.activityDetailLayout.setBackgroundResource(R.drawable.registered_background_green)
         }
 
         holder.activity = activity
         val arrow = "&#10132"
         val formatter = DateTimeFormatter.ofPattern(("hh:mm"))
-        val startDate = Utils.convertStringToOffsetDateTime(activity.startDate!!)
-        val endDate = Utils.convertStringToOffsetDateTime(activity.endDate!!)
+        val startDate = Utils.convertStringToOffsetDateTime(activity.startDate)
+        val endDate = Utils.convertStringToOffsetDateTime(activity.endDate)
         holder.binding.tvDate.text = context.getString(
             R.string.activity_date,
             startDate.dayOfWeek,
@@ -70,15 +82,14 @@ class ActivityRecycleViewAdapter :
         )
         holder.binding.tvRegistered.text = context.getString(
             R.string.registered_slash_places,
-            activity.registrations.size,
-            activity.requiredParticipant!!
+            regs.size,
+            activity.requiredParticipant
         )
-        val availablePlaces: Int = activity.requiredParticipant - activity.registrations.size
+        val availablePlaces: Int = activity.requiredParticipant - regs.size
         if(availablePlaces == 0){
             holder.binding.tvRegistered.setTextColor(context.resources.getColor(R.color.fullColor))
             holder.binding.tvRegistered.text = context.getString(R.string.full)
         }
-
     }
 
     fun addItem(activity: Activity) {
@@ -86,14 +97,8 @@ class ActivityRecycleViewAdapter :
         submitList(activityList)
     }
 
-    fun addAll(activities: List<Activity>) {
-        activityList = activities
-        submitList(activityList)
-    }
-
-    fun deleteRow(position: Int) {
-        activityList = activityList.filterIndexed { index, _ -> index != position }
-        submitList(activityList)
+    fun deleteAll(){
+        activityList = emptyList()
     }
 
     inner class ViewHolder(val binding: SingleActivityBinding) :

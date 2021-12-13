@@ -4,22 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.ListView
 import androidx.fragment.app.Fragment
-import com.github.aachartmodel.aainfographics.aachartcreator.AAChartModel
-import com.github.aachartmodel.aainfographics.aachartcreator.AAChartType
-import com.github.aachartmodel.aainfographics.aachartcreator.AASeriesElement
+import hu.ktk.it.dukashare.ApplicationContext
 import hu.ktk.it.dukashare.R
 import hu.ktk.it.dukashare.databinding.FragmentStatusBinding
-import hu.ktk.it.dukashare.model.Activity
-import hu.ktk.it.dukashare.model.ActivityType
 import hu.ktk.it.dukashare.service.ActivityService
-import hu.ktk.it.dukashare.service.ActivityTypeService
+import hu.ktk.it.dukashare.service.RegistrationService
+import hu.ktk.it.dukashare.service.UserService
 
 class StatusFragment : Fragment() {
     private var _binding: FragmentStatusBinding? = null
-    private var activityTypes: List<ActivityType?>? = emptyList()
-    private var activities: List<Activity?>? = emptyList()
+    private var activityNames: List<String> = emptyList()
     private val binding get() = _binding!!
+    private var simpleList: ListView? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -27,49 +26,35 @@ class StatusFragment : Fragment() {
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         _binding = FragmentStatusBinding.inflate(inflater, container, false)
+        simpleList = binding.elvClosedRegistrations
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getActivityTypes()
-        getActivities()
+        getUserStatus()
+        getRegistrations()
     }
 
-    private fun getActivityTypes() {
-        ActivityTypeService().getActivityTypes {
-            if (it != null) activityTypes = it
+    private fun getUserStatus() {
+        UserService().getUserStatus(ApplicationContext.user?.id!!) {
+            if (it != null) binding.tvHours.text = getString(R.string.hours, it.toString())
         }
     }
 
-    private fun getActivities() {
-        ActivityService().getActivities {
+    private fun getRegistrations() {
+        RegistrationService().getRegistrations(ApplicationContext.user?.id, null) { it ->
             if (it != null) {
-                activities = it
-                loadChart()
+                for (reg in it) {
+                    ActivityService().getActivityById(reg?.activityId!!) {
+                        activityNames = activityNames + "${it?.summary!!}   (${reg.hours} hours)"
+                        var adapter = ArrayAdapter<String>(activity?.baseContext!!, android.R.layout.simple_spinner_dropdown_item, activityNames)
+                        simpleList!!.adapter = adapter
+                    }
+                }
             }
         }
-    }
-
-
-    private fun loadChart() {
-        val activitiesPerTypes = IntArray(activityTypes?.size!!)
-        for (act in activities!!) {
-            activitiesPerTypes[activityTypes?.indexOf(act?.activityType)!!] += 1
-        }
-        val series = Array(activityTypes?.size!!) { i ->
-
-            AASeriesElement().name(activityTypes!![i]?.name).data(arrayOf(activitiesPerTypes[i]))
-        }
-
-        val aaPieChart: AAChartModel = AAChartModel()
-            .chartType(AAChartType.Bar)
-            .title("Activity Types")
-            .dataLabelsEnabled(true)
-            .backgroundColor(R.color.primaryColor)
-            .series(series)
-        binding.aaChartView.aa_drawChartWithChartModel(aaPieChart)
     }
 
 

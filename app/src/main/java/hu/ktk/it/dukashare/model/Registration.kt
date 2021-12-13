@@ -4,6 +4,6 @@ data class Registration(
     val id: Long?,
     val userId: Long,
     val activityId: Long,
-    val dateOfRegistration: String?
-
+    val dateOfRegistration: String?,
+    val hours: Double
 )

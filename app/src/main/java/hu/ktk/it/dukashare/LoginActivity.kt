@@ -5,27 +5,27 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import hu.ktk.it.dukashare.databinding.LoginLayoutBinding
+import hu.ktk.it.dukashare.model.Login
 import hu.ktk.it.dukashare.model.User
+import hu.ktk.it.dukashare.service.LoginService
 import hu.ktk.it.dukashare.service.UserService
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: LoginLayoutBinding
-    private val userService: UserService = UserService()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = LoginLayoutBinding.inflate(layoutInflater)
 
         binding.btnLogin.setOnClickListener {
-            getUser(binding.emailField.editText?.text.toString())
+            getUser()
         }
         this.supportActionBar?.hide()
         setContentView(binding.root)
-
     }
 
-    private fun getUser(email: String) {
-        userService.getUserByEmail(email) {
+    private fun getUser() {
+        LoginService().loginUser(Login(binding.emailField.editText?.text.toString(), binding.passwordField.editText?.text.toString())) {
             if (it != null) {
                 ApplicationContext.user = it
                 startActivity(Intent(this, ActivityDetailHostActivity::class.java))
