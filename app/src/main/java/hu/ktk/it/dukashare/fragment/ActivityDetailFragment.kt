@@ -66,9 +66,10 @@ class ActivityDetailFragment : Fragment() {
 
         binding.btnMail?.setOnClickListener{
             val emailIntent = Intent(Intent.ACTION_SEND)
+            var addresses = arrayOf(selectedActivity?.responsibleUser?.email!!)
             emailIntent.data = Uri.parse("mailto:")
             emailIntent.type = "text/plain"
-            emailIntent.putExtra(Intent.EXTRA_EMAIL, selectedActivity?.responsibleUser?.email)
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, addresses )
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, selectedActivity?.summary)
 
             try {

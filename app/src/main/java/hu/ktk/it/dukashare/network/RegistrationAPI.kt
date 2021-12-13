@@ -14,5 +14,6 @@ interface RegistrationAPI {
     fun deleteRegistration(@Path("id") id: Long): Call<ResponseBody>
 
     @GET("Registration")
-    fun getRegistrations(@Query ("filter") filter: RegistrationFilter?): Call<List<Registration?>?>
+    fun getRegistrations(@Query ("userId") userId: Long?,
+                         @Query ("activityId") activityId: Long?): Call<List<Registration?>?>
 }

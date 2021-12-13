@@ -16,6 +16,10 @@
             android:id="@+id/show_status"
             app:destination="@+id/status"
             />
+        <action
+            android:id="@+id/show_new_activity_dialog"
+            app:destination="@+id/new_ativity"
+            />
     </fragment>
     <fragment
         android:id="@+id/activity_detail_fragment"
@@ -60,4 +64,9 @@
         android:name="hu.ktk.it.dukashare.fragment.SettingsFragment"
         android:label="Settings"
         tools:layout="@layout/fragment_settings"/>
+    <fragment
+        android:id="@+id/new_ativity"
+        android:name="hu.ktk.it.dukashare.fragment.NewEditActivityDialogFragment"
+        android:label="Create Activity"
+        tools:layout="@layout/dialog_new_activity"/>
 </navigation>

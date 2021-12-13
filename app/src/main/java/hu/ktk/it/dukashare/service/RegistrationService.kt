@@ -45,8 +45,8 @@ class RegistrationService {
         })
     }
 
-    fun getRegistrations(filter: RegistrationFilter?, onResult: (List<Registration?>?) -> Unit){
-        retrofit.getRegistrations(filter).enqueue(object : Callback<List<Registration?>?> {
+    fun getRegistrations(userId: Long?, activityId: Long, onResult: (List<Registration?>?) -> Unit){
+        retrofit.getRegistrations(userId, activityId).enqueue(object : Callback<List<Registration?>?> {
             override fun onResponse(call: Call<List<Registration?>?>, response: Response<List<Registration?>?>) {
                 onResult(response.body()!!)
             }

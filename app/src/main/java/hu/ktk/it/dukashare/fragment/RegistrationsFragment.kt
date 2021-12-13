@@ -41,10 +41,9 @@ class RegistrationsFragment : ListFragment() {
 
     private fun getRegistrations() {
         RegistrationService().getRegistrations(
-            RegistrationFilter(
-                activityId = activityId,
-                userId = null
-            )
+            null,
+            activityId!!,
+
         ) { it ->
             if (it != null) {
                 var userIds: List<Long> = emptyList()
@@ -61,7 +60,7 @@ class RegistrationsFragment : ListFragment() {
         for (id in userIds) {
             UserService().getUserById(id) {
                 if (it != null) names = names + "${it.lastname} ${it.surename}"
-                listAdapter = ArrayAdapter<String>(activity?.baseContext!!, R.layout.simple_registration_layout, names)
+                listAdapter = ArrayAdapter<String>(activity?.baseContext!!, android.R.layout.simple_spinner_dropdown_item, names)
             }
         }
 

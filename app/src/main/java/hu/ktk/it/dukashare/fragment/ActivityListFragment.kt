@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import hu.ktk.it.dukashare.ApplicationContext
 import hu.ktk.it.dukashare.DukaShare
 import hu.ktk.it.dukashare.R
 import hu.ktk.it.dukashare.adapter.ActivityRecycleViewAdapter
@@ -17,9 +16,11 @@ import hu.ktk.it.dukashare.databinding.FragmentActivityListBinding
 import hu.ktk.it.dukashare.model.Activity
 import hu.ktk.it.dukashare.model.ActivityState
 import hu.ktk.it.dukashare.service.ActivityService
+import hu.ktk.it.dukashare.service.Utils
 
 
-class ActivityListFragment : Fragment(), ActivityRecycleViewAdapter.ActivityClickListener {
+class ActivityListFragment : Fragment(), ActivityRecycleViewAdapter.ActivityClickListener,
+    NewEditActivityDialogFragment.NewEditActivityDialogListener {
     private var _binding: FragmentActivityListBinding? = null
     private var activityDetailFragmentContainer: View? = null
     private val binding get() = _binding!!
@@ -30,6 +31,13 @@ class ActivityListFragment : Fragment(), ActivityRecycleViewAdapter.ActivityClic
     ): View {
 
         _binding = FragmentActivityListBinding.inflate(inflater, container, false)
+
+        binding.fab?.setOnClickListener {
+            NewEditActivityDialogFragment().show(
+                childFragmentManager,
+                NewEditActivityDialogFragment.TAG
+            )
+        }
         return binding.root
     }
 
@@ -50,12 +58,15 @@ class ActivityListFragment : Fragment(), ActivityRecycleViewAdapter.ActivityClic
     private fun getActivities() {
         activityService.getActivities {
             if (it != null) {
+                var count = 0
                 for (act in it) {
-                    if (act?.activityState == ActivityState.ONGOING)
+                    if (act?.activityState == ActivityState.ONGOING) {
                         activityRecyclerViewAdapter.addItem(act)
+                        if (Utils.isUserRegistered(act.registrations!!)) count++
+                    }
                 }
-                binding.tvActivityCount?.text =
-                    getString(R.string.activity_count, ApplicationContext.user?.registrations?.size)
+                binding.tvActivityCount?.text = "$count"
+
             } else Toast.makeText(
                 activity,
                 "Could not connect to server",
@@ -77,5 +88,20 @@ class ActivityListFragment : Fragment(), ActivityRecycleViewAdapter.ActivityClic
         } else {
             findNavController(this).navigate(R.id.show_activity_detail, bundle)
         }
+    }
+
+    override fun onActivityChanged(activity:Activity) {
+        ActivityService().addActivity(activity){
+            if(it != null){
+                getActivities()
+            }
+            else{
+                Toast.makeText( requireActivity(),
+                    "Network error",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
     }
 }

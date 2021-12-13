@@ -1,6 +1,7 @@
 package hu.ktk.it.dukashare.service
 
 import hu.ktk.it.dukashare.model.Activity
+import hu.ktk.it.dukashare.model.Registration
 import hu.ktk.it.dukashare.network.ActivityAPI
 import hu.ktk.it.dukashare.network.NetworkManager
 import retrofit2.Call
@@ -28,6 +29,21 @@ class ActivityService {
             }
 
             override fun onFailure(call: Call<List<Activity?>?>, t: Throwable) {
+                onResult(null)
+            }
+
+        })
+    }
+
+    fun addActivity(activity: Activity, onResult: (Activity?) -> Unit) {
+        retrofit.addActivity(activity).enqueue(object : Callback<Activity?> {
+            override fun onResponse(call: Call<Activity?>, response: Response<Activity?>) {
+                if (response.isSuccessful) {
+                    onResult(response.body())
+                }
+            }
+
+            override fun onFailure(call: Call<Activity?>, t: Throwable) {
                 onResult(null)
             }
 

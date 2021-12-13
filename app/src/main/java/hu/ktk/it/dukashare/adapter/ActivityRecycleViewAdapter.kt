@@ -29,7 +29,7 @@ class ActivityRecycleViewAdapter :
     }
 
     private var activityList = emptyList<Activity>()
-
+    private var registeredActivity: Int = 0
     var itemClickListener: ActivityClickListener? = null
     private lateinit var context: Context
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -47,6 +47,7 @@ class ActivityRecycleViewAdapter :
         val activity = activityList[position]
         val regs: List<Registration> = activity.registrations!!
         if (Utils.isUserRegistered(regs)) {
+            registeredActivity += 1
             holder.binding.activityDetailLayout.setBackgroundResource(R.drawable.registered_background_green)
         }
 
@@ -78,21 +79,10 @@ class ActivityRecycleViewAdapter :
             holder.binding.tvRegistered.setTextColor(context.resources.getColor(R.color.fullColor))
             holder.binding.tvRegistered.text = context.getString(R.string.full)
         }
-
     }
 
     fun addItem(activity: Activity) {
         activityList = activityList + activity
-        submitList(activityList)
-    }
-
-    fun addAll(activities: List<Activity>) {
-        activityList = activities
-        submitList(activityList)
-    }
-
-    fun deleteRow(position: Int) {
-        activityList = activityList.filterIndexed { index, _ -> index != position }
         submitList(activityList)
     }
 

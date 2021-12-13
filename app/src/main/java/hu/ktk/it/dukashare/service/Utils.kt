@@ -7,13 +7,13 @@ import java.time.OffsetDateTime
 import java.time.ZoneOffset
 
 object Utils {
-    fun convertStringToOffsetDateTime(date: String): OffsetDateTime{
-        val instant: Instant = Instant.parse(date +"Z")
+    fun convertStringToOffsetDateTime(date: String): OffsetDateTime {
+        val instant: Instant = Instant.parse(date + "Z")
         return instant.atOffset(ZoneOffset.UTC)
     }
 
-    fun isUserRegistered(regs: List<Registration>) : Boolean{
-        if(ApplicationContext.user != null) {
+    fun isUserRegistered(regs: List<Registration>): Boolean {
+        if (ApplicationContext.user != null) {
             for (reg: Registration in regs) {
                 if (reg.userId == ApplicationContext.user!!.id) return true
             }
@@ -21,12 +21,20 @@ object Utils {
         return false
     }
 
-    fun updateUser(){
-        UserService().getUserById(ApplicationContext.user?.id!!){
+    fun updateUser() {
+        UserService().getUserById(ApplicationContext.user?.id!!) {
             if (it != null) {
                 ApplicationContext.user = it
             }
         }
+    }
+
+    fun getRegistrationCount(regs: List<Registration>): Int {
+        var count = 0
+        for (reg: Registration in regs) {
+            if (reg.userId == ApplicationContext.user!!.id) count += 1
+        }
+        return count
     }
 
 }
