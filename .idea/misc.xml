@@ -19,11 +19,13 @@
         <entry key="..\:/Users/wagne/source/repos/DukaShare.ui/app/src/main/res/layout/activity_status.xml" value="0.2265625" />
         <entry key="..\:/Users/wagne/source/repos/DukaShare.ui/app/src/main/res/layout/dialog_new_activity.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/wagne/source/repos/DukaShare.ui/app/src/main/res/layout/fragment_activity_detail.xml" value="0.1" />
-        <entry key="..\:/Users/wagne/source/repos/DukaShare.ui/app/src/main/res/layout/fragment_activity_list.xml" value="0.14" />
+        <entry key="..\:/Users/wagne/source/repos/DukaShare.ui/app/src/main/res/layout/fragment_activity_list.xml" value="0.1" />
         <entry key="..\:/Users/wagne/source/repos/DukaShare.ui/app/src/main/res/layout/fragment_settings.xml" value="0.2265625" />
         <entry key="..\:/Users/wagne/source/repos/DukaShare.ui/app/src/main/res/layout/fragment_status.xml" value="0.22135416666666666" />
+        <entry key="..\:/Users/wagne/source/repos/DukaShare.ui/app/src/main/res/layout/hour_registration.xml" value="0.1" />
         <entry key="..\:/Users/wagne/source/repos/DukaShare.ui/app/src/main/res/layout/login_layout.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/wagne/source/repos/DukaShare.ui/app/src/main/res/layout/main_layout.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/wagne/source/repos/DukaShare.ui/app/src/main/res/layout/manager_activities_layout.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/wagne/source/repos/DukaShare.ui/app/src/main/res/layout/registrations_layout.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/wagne/source/repos/DukaShare.ui/app/src/main/res/layout/simple_registration_layout.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/wagne/source/repos/DukaShare.ui/app/src/main/res/layout/single_activity.xml" value="0.2907608695652174" />

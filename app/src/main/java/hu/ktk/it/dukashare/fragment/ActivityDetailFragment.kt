@@ -31,6 +31,7 @@ class ActivityDetailFragment : Fragment() {
     private val binding get() = _binding
     private var activityId: Long = 0
     private val activityService = ActivityService()
+    private var regs: List<Registration> =  emptyList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let { args ->
@@ -46,11 +47,17 @@ class ActivityDetailFragment : Fragment() {
     }
 
     private fun getActivity(id: Long) {
-        activityService.getActivityById(id) {
+        activityService.getActivityById(id) { it ->
             if (it != null) {
                 selectedActivity = it
-                isRegistered = Utils.isUserRegistered(selectedActivity?.registrations!!)
-                setTexts()
+                RegistrationService().getRegistrations(null, activityId){
+                    if(it != null){
+                        regs = it as List<Registration>
+                        isRegistered = Utils.isUserRegistered(regs)
+                        setTexts()
+                    }
+                }
+
             }
         }
     }
@@ -90,15 +97,17 @@ class ActivityDetailFragment : Fragment() {
     }
 
     private fun unregister() {
-        val reg = RegistrationService().findUserActivityRegistration(activityId)
-        if (reg != null) {
-            RegistrationService().deleteRegistrationById(reg.id!!) {
-                if (it == "successful") {
-                    isRegistered = false
-                    refreshView()
+        RegistrationService().getRegistrations(ApplicationContext.user?.id, activityId){ it ->
+            if (it != null) {
+                RegistrationService().deleteRegistrationById(it[0]?.id!!) {
+                    if (it == "successful") {
+                        isRegistered = false
+                        refreshView()
+                    }
                 }
             }
         }
+
     }
 
     private fun refreshView() {
@@ -112,7 +121,8 @@ class ActivityDetailFragment : Fragment() {
                 null,
                 ApplicationContext.user?.id!!,
                 activityId,
-                null
+                null,
+                0.0
             )
         ) {
             if (it == null)
@@ -135,7 +145,7 @@ class ActivityDetailFragment : Fragment() {
             val startDate = Utils.convertStringToOffsetDateTime(selectedActivity!!.startDate!!)
             val endDate = Utils.convertStringToOffsetDateTime(selectedActivity!!.endDate!!)
             val availablePlaces: Int =
-                selectedActivity?.requiredParticipant!! - selectedActivity?.registrations!!.size
+                selectedActivity?.requiredParticipant!! - regs.size
             binding.tvActivityDate?.text = getString(
                 R.string.activity_detail_date,
                 startDate.dayOfMonth,
@@ -150,7 +160,7 @@ class ActivityDetailFragment : Fragment() {
 
             binding.tvParticipants?.text = getString(
                 R.string.registered_slash_places,
-                selectedActivity?.registrations!!.size,
+                regs.size,
                 selectedActivity?.requiredParticipant
             )
 
@@ -162,7 +172,7 @@ class ActivityDetailFragment : Fragment() {
             binding.tvResponsible?.text = getString(
                 R.string.responsible,
                 selectedActivity?.responsibleUser?.lastname,
-                selectedActivity?.responsibleUser?.surename
+                selectedActivity?.responsibleUser?.firstname
             )
 
             if (availablePlaces == 0) {

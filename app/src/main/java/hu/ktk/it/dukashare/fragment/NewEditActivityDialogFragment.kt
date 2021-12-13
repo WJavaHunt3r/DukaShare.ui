@@ -11,9 +11,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import hu.ktk.it.dukashare.R
 import hu.ktk.it.dukashare.databinding.DialogNewActivityBinding
-import hu.ktk.it.dukashare.model.Activity
-import hu.ktk.it.dukashare.model.ActivityType
-import hu.ktk.it.dukashare.model.User
+import hu.ktk.it.dukashare.model.*
 import hu.ktk.it.dukashare.service.ActivityTypeService
 import hu.ktk.it.dukashare.service.UserService
 
@@ -46,10 +44,12 @@ class NewEditActivityDialogFragment : DialogFragment() {
     private fun isValid(): Boolean {
         try {
             binding.etRequiredParticipants.text.toString().toInt()
+            return true
         } catch (e: NumberFormatException) {
             binding.etRequiredParticipants.error = "Enter a decimal number"
+            return false
         }
-        return true
+
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -63,7 +63,6 @@ class NewEditActivityDialogFragment : DialogFragment() {
             override fun onNothingSelected(p0: AdapterView<*>?) {
 
             }
-
         }
         binding.responsibleUserSpinner.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
@@ -86,7 +85,7 @@ class NewEditActivityDialogFragment : DialogFragment() {
             .setPositiveButton(R.string.save) { dialogInterface, i ->
                 if (isValid()) {
                     listener.onActivityChanged(getNewActivity())
-                } else {
+                }else{
                     dialogInterface.dismiss()
                 }
             }
@@ -116,14 +115,11 @@ class NewEditActivityDialogFragment : DialogFragment() {
             ),
             activityTypeId = activityTypes[activityTypeNames.indexOf(activityTypeSelected)].id,
             responsibleUserId = users[userNames.indexOf(userSelected)].id,
-            activityState = null,
+            activityState = ActivityState.ONGOING,
             requiredParticipant = binding.etRequiredParticipants.text.toString().toInt(),
             responsibleUser = null,
-            activityType = null,
-            id = 0,
-            registrations = null
+            id = 0
         )
-
     }
 
     private fun getActivityTypes() {
@@ -146,8 +142,10 @@ class NewEditActivityDialogFragment : DialogFragment() {
         UserService().getUsers {
             if (it != null) {
                 for (user in it) {
-                    users = users + user!!
-                    userNames = userNames + "${user.lastname} ${user.surename}"
+                    if(user?.role == Role.MANAGER || user?.role == Role.ADMIN){
+                        users = users + user
+                        userNames = userNames + "${user.lastname} ${user.firstname}"
+                    }
                 }
                 binding.responsibleUserSpinner.adapter = ArrayAdapter(
                     requireContext(),

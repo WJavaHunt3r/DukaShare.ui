@@ -12,4 +12,7 @@ interface UserAPI {
 
     @GET("User")
     fun getUsers(): Call<List<User?>?>
+
+    @GET("User/{id}/Status")
+    fun getUserStatus(@Path("id") id: Long): Call<Double>
 }

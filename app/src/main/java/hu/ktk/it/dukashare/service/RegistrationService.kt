@@ -1,11 +1,8 @@
 package hu.ktk.it.dukashare.service
 
-import hu.ktk.it.dukashare.ApplicationContext
-import hu.ktk.it.dukashare.model.Activity
 import hu.ktk.it.dukashare.model.Registration
 import hu.ktk.it.dukashare.network.NetworkManager
 import hu.ktk.it.dukashare.network.RegistrationAPI
-import hu.ktk.it.dukashare.network.filter.RegistrationFilter
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -45,7 +42,7 @@ class RegistrationService {
         })
     }
 
-    fun getRegistrations(userId: Long?, activityId: Long, onResult: (List<Registration?>?) -> Unit){
+    fun getRegistrations(userId: Long?, activityId: Long?, onResult: (List<Registration?>?) -> Unit){
         retrofit.getRegistrations(userId, activityId).enqueue(object : Callback<List<Registration?>?> {
             override fun onResponse(call: Call<List<Registration?>?>, response: Response<List<Registration?>?>) {
                 onResult(response.body()!!)
@@ -57,12 +54,18 @@ class RegistrationService {
 
         })
     }
-    fun findUserActivityRegistration(activityId: Long): Registration? {
-        for (reg in ApplicationContext.user?.registrations!!) {
-            if (reg.activityId == activityId) {
-                return reg
+
+    fun updateRegistration(id: Long, registration: Registration, onResult: (ResponseBody?) -> Unit) {
+        retrofit.updateRegistration(id, registration).enqueue(object : Callback<ResponseBody?> {
+            override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
+                if (response.isSuccessful) {
+                    onResult(response.body())
+                }
             }
-        }
-        return null
+
+            override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
+                onResult(null)
+            }
+        })
     }
 }

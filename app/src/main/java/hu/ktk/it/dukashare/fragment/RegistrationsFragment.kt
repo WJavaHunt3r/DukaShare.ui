@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.ListFragment
 import hu.ktk.it.dukashare.DukaShare
-import hu.ktk.it.dukashare.R
 import hu.ktk.it.dukashare.databinding.RegistrationsLayoutBinding
-import hu.ktk.it.dukashare.network.filter.RegistrationFilter
 import hu.ktk.it.dukashare.service.RegistrationService
 import hu.ktk.it.dukashare.service.UserService
 
@@ -59,7 +57,7 @@ class RegistrationsFragment : ListFragment() {
     private fun getUsers(userIds: List<Long>) {
         for (id in userIds) {
             UserService().getUserById(id) {
-                if (it != null) names = names + "${it.lastname} ${it.surename}"
+                if (it != null) names = names + "${it.lastname} ${it.firstname}"
                 listAdapter = ArrayAdapter<String>(activity?.baseContext!!, android.R.layout.simple_spinner_dropdown_item, names)
             }
         }

@@ -35,4 +35,16 @@ class UserService {
 
         })
     }
+
+    fun getUserStatus(id: Long, onResult: (Double?) -> Unit) {
+        retrofit.getUserStatus(id).enqueue(object : Callback<Double?> {
+            override fun onResponse(call: Call<Double?>, response: Response<Double?>) {
+                onResult(response.body()!!)
+            }
+
+            override fun onFailure(call: Call<Double?>, t: Throwable) {
+                onResult(null)
+            }
+        })
+    }
 }

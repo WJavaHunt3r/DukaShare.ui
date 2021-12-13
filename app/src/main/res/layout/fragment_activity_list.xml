@@ -57,11 +57,12 @@
         android:layout_gravity="end|bottom"
         android:src="@drawable/ic_baseline_add_24"
         android:contentDescription="@string/add_activity"
-        android:layout_margin="16dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginTop="300dp"
+        android:layout_marginEnd="16dp"
         android:visibility="invisible"
         android:backgroundTint="@color/lightGrey"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@id/line1"
         app:layout_constraintEnd_toEndOf="parent"
         />
 

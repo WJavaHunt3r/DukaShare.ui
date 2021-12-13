@@ -28,13 +28,4 @@ object Utils {
             }
         }
     }
-
-    fun getRegistrationCount(regs: List<Registration>): Int {
-        var count = 0
-        for (reg: Registration in regs) {
-            if (reg.userId == ApplicationContext.user!!.id) count += 1
-        }
-        return count
-    }
-
 }

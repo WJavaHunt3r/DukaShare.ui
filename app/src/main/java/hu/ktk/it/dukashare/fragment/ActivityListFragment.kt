@@ -19,6 +19,7 @@ import hu.ktk.it.dukashare.model.Activity
 import hu.ktk.it.dukashare.model.ActivityState
 import hu.ktk.it.dukashare.model.Role.ADMIN
 import hu.ktk.it.dukashare.service.ActivityService
+import hu.ktk.it.dukashare.service.RegistrationService
 import hu.ktk.it.dukashare.service.Utils
 
 
@@ -62,17 +63,20 @@ class ActivityListFragment : Fragment(), ActivityRecycleViewAdapter.ActivityClic
     }
 
     private fun getActivities() {
-        activityService.getActivities {
+        activityService.getActivities { it ->
             if (it != null) {
                 var count = 0
                 activityRecyclerViewAdapter.deleteAll()
                 for (act in it) {
                     if (act?.activityState == ActivityState.ONGOING) {
                         activityRecyclerViewAdapter.addItem(act)
-                        if (Utils.isUserRegistered(act.registrations!!)) count++
+                        RegistrationService().getRegistrations(ApplicationContext.user?.id, act.id){
+                            if (it != null && it.isNotEmpty()) count++
+                            binding.tvActivityCount?.text = getString(R.string.activity_count, count)
+                        }
                     }
                 }
-                binding.tvActivityCount?.text = "$count"
+
 
             } else Toast.makeText(
                 activity,
