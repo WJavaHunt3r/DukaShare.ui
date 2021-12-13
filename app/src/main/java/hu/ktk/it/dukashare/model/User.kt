@@ -7,5 +7,6 @@ data class User(
     val dateOfBirth: String,
     val spouseId: Long,
     val email: String,
-    val registrations: List<Registration>
+    val registrations: List<Registration>,
+    val role: Role
 )

@@ -5,16 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import hu.ktk.it.dukashare.ApplicationContext
 import hu.ktk.it.dukashare.DukaShare
 import hu.ktk.it.dukashare.R
 import hu.ktk.it.dukashare.adapter.ActivityRecycleViewAdapter
 import hu.ktk.it.dukashare.databinding.FragmentActivityListBinding
 import hu.ktk.it.dukashare.model.Activity
 import hu.ktk.it.dukashare.model.ActivityState
+import hu.ktk.it.dukashare.model.Role.ADMIN
 import hu.ktk.it.dukashare.service.ActivityService
 import hu.ktk.it.dukashare.service.Utils
 
@@ -32,6 +35,9 @@ class ActivityListFragment : Fragment(), ActivityRecycleViewAdapter.ActivityClic
 
         _binding = FragmentActivityListBinding.inflate(inflater, container, false)
 
+        if (ApplicationContext.user?.role == ADMIN) {
+            binding.fab?.isVisible = true
+        }
         binding.fab?.setOnClickListener {
             NewEditActivityDialogFragment().show(
                 childFragmentManager,
@@ -59,6 +65,7 @@ class ActivityListFragment : Fragment(), ActivityRecycleViewAdapter.ActivityClic
         activityService.getActivities {
             if (it != null) {
                 var count = 0
+                activityRecyclerViewAdapter.deleteAll()
                 for (act in it) {
                     if (act?.activityState == ActivityState.ONGOING) {
                         activityRecyclerViewAdapter.addItem(act)
@@ -90,13 +97,13 @@ class ActivityListFragment : Fragment(), ActivityRecycleViewAdapter.ActivityClic
         }
     }
 
-    override fun onActivityChanged(activity:Activity) {
-        ActivityService().addActivity(activity){
-            if(it != null){
+    override fun onActivityChanged(activity: Activity) {
+        ActivityService().addActivity(activity) {
+            if (it != null) {
                 getActivities()
-            }
-            else{
-                Toast.makeText( requireActivity(),
+            } else {
+                Toast.makeText(
+                    requireActivity(),
                     "Network error",
                     Toast.LENGTH_SHORT
                 ).show()

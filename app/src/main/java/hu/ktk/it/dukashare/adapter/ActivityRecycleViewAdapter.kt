@@ -86,6 +86,10 @@ class ActivityRecycleViewAdapter :
         submitList(activityList)
     }
 
+    fun deleteAll(){
+        activityList = emptyList<Activity>()
+    }
+
     inner class ViewHolder(val binding: SingleActivityBinding) :
         RecyclerView.ViewHolder(binding.root) {
         var activity: Activity? = null
